@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <script>
+            var txt="<bookstore><book>";
+            txt += "<title>Everyday Italian</title>";
+            txt += "<author>Giada De Laurentiis</author>";
+            txt += "<year>2005</year>";
+            txt += "</book></bookstore>";
+        </script>
+        <script>
+            function load_xml_string()
+            {
+                tdxmlstring = document.getElementById("xmlString");
+                tdxmlstring.innerHTML = txt;
+                var parser=new DOMParser();
+                var xmlDoc=parser.parseFromString(txt,"text/xml");
+                idtile = document.getElementById("tdtitle");
+                idtile.innerHTML = xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                idauthor = document.getElementById("tdauthor");
+                idauthor.innerHTML = xmlDoc.getElementsByTagName("author")[0].childNodes[0].nodeValue;
+                idyear = document.getElementById("idyear");
+                idyear.innerHTML = xmlDoc.getElementsByTagName("year")[0].childNodes[0].nodeValue;
+            }
+        </script>
+    </head>
+    <body>
+        <button onclick="load_xml_string()">Load Book</button>
+        <table border="1">
+            <tr>
+                <td>XML string</td>
+                <td id="xmlString"></td>
+            </tr>
+            <tr>
+                <td>Title:</td>
+                <td id="tdtitle"></td>
+            </tr>
+            <tr>
+                <td>Author:</td>
+                <td id="tdauthor"></td>
+            </tr>
+            <tr>
+                <td>Year:</td>
+                <td id="idyear"></td>
+            </tr>
+        </table>
+    </body>
+</html>

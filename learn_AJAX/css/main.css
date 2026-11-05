@@ -1,0 +1,17 @@
+table, tr,td,th {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#tbStudent tr:nth-child(odd) {
+    background-color: yellow;
+}
+
+#tbStudent tr:nth-child(even) {
+    background-color: pink;
+}
+
+#tbStudent tr:hover {
+    background-color: green;
+    color: white;
+}

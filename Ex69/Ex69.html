@@ -1,0 +1,33 @@
+
+<html>
+<head>
+    <title>Employees by Title</title>
+    <link rel="stylesheet" href="CSS/main.css">
+</head>
+<body>
+    <main>
+        <table>
+            <thead>
+                <tr class="filter-row">
+                    <td><label for="titleList">Chọn Title:</label></td>
+                    <td>
+                        <select id="titleList" aria-label="Chọn Title">
+                            <option value="">Đang tải...</option>
+                        </select>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="col">Mã Employee</th>
+                    <th scope="col">Tên Employee</th>
+                    <th scope="col">Phone Employee</th>
+                </tr>
+            </thead>
+            <tbody id="tbEmployees"></tbody>
+        </table>
+        <p id="status" class="visually-hidden" role="status" aria-live="polite"></p>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

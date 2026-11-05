@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <script>
+            function loadDays() {
+                var sel_day = document.getElementById("sel_day");
+                for (var i = 1; i <= 31; i++) {
+                    var option = document.createElement("option");
+                    option.value = i;
+                    option.text = i;
+                    sel_day.appendChild(option);
+                }
+            }
+            function loadMonths() {
+                var sel_month = document.getElementById("sel_month");
+                for (var i = 1; i <= 12; i++) {
+                    var option = document.createElement("option");
+                    option.value = i;
+                    option.text = i;
+                    sel_month.appendChild(option);
+                }
+            }
+            function loadYears() {
+                var sel_year = document.getElementById("sel_year");
+                var currentYear = new Date().getFullYear()-16;
+                for (var i = currentYear-100; i<=currentYear; i++) {
+                    var option = document.createElement("option");
+                    option.value = i;
+                    option.text = i;
+                    sel_year.appendChild(option);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td>Customer Name</td>
+                <td><input type="text" id="txtCustomerName"></td>
+            </tr>
+            <tr>
+                <td>Customer Email</td>
+                <td><input type="email" id="txtCustomerEmail"></td>
+            </tr>
+            <tr>
+                <td>Birthday:</td>
+                <td>
+                    <select id="sel_day"></select>
+                    <select id="sel_month"></select>
+                    <select id="sel_year"></select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center;">
+                    <button onclick="addCustomer()">Add Customer</button>
+                </td>
+            </tr>
+        </table>
+        <table border="1">
+            <tr>
+                <th>Customer Name</th>
+                <th>Customer Email</th>
+                <th>Birthday</th>
+            </tr>
+            <tbody id="tblCustomer"></tbody>
+        </table>
+        <script>
+            loadDays();
+            loadMonths();
+            loadYears();
+            function addCustomer() {
+                var name = document.getElementById("txtCustomerName").value;
+                var email = document.getElementById("txtCustomerEmail").value;
+                var day = document.getElementById("sel_day").value;
+                var month = document.getElementById("sel_month").value;
+                var year = document.getElementById("sel_year").value;
+                var birthday = day + "/" + month + "/" + year;
+
+                var tblCustomer = document.getElementById("tblCustomer");
+                var row = tblCustomer.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                cell1.innerHTML = name;
+                cell2.innerHTML = email;
+                cell3.innerHTML = birthday;
+
+                // Clear input fields
+                document.getElementById("txtCustomerName").value = "";
+                document.getElementById("txtCustomerEmail").value = "";
+            }
+        </script>
+    </body>
+</html>

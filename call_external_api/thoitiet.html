@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự báo thời tiết theo tỉnh thành</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #172b4d;
+            background: #f3f6fb;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 32px 18px 56px;
+        }
+
+        main {
+            width: min(1080px, 100%);
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, p {
+            margin-top: 0;
+        }
+
+        .page-header {
+            margin-bottom: 22px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 8px;
+            color: #123b68;
+            font-size: clamp(1.65rem, 4vw, 2.25rem);
+        }
+
+        .page-header p {
+            margin-bottom: 0;
+            color: #52657d;
+            line-height: 1.6;
+        }
+
+        .search-panel, .weather-card, .data-panel {
+            border: 1px solid #dce5f0;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 5px 20px rgb(32 62 96 / 6%);
+        }
+
+        .search-panel {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: end;
+            gap: 12px;
+            padding: 18px;
+        }
+
+        .select-wrap {
+            flex: 1 1 260px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+        }
+
+        select, button {
+            min-height: 44px;
+            border-radius: 8px;
+            font: inherit;
+        }
+
+        select {
+            width: 100%;
+            padding: 0 12px;
+            border: 1px solid #b8c7d9;
+            background: white;
+            color: inherit;
+        }
+
+        button {
+            padding: 0 20px;
+            border: 0;
+            background: #1266ae;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0c508c;
+        }
+
+        button:disabled {
+            cursor: wait;
+            opacity: .65;
+        }
+
+        #message {
+            min-height: 24px;
+            margin: 12px 2px 0;
+            color: #52657d;
+        }
+
+        #message.error {
+            color: #b42318;
+        }
+
+        #weather-content {
+            margin-top: 18px;
+        }
+
+        .weather-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1.5fr) minmax(220px, 1fr);
+            gap: 18px;
+            padding: 24px;
+            background: linear-gradient(130deg, #eaf5ff, #fff 72%);
+        }
+
+        .weather-place {
+            margin-bottom: 5px;
+            color: #52657d;
+            font-size: 1rem;
+        }
+
+        .weather-temperature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 5px 0;
+            color: #123b68;
+            font-size: clamp(2.8rem, 9vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .weather-temperature img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+        }
+
+        .weather-status {
+            margin: 8px 0 0;
+            color: #38546f;
+            font-size: 1.1rem;
+        }
+
+        .summary-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            align-content: center;
+        }
+
+        .summary-item {
+            padding: 12px;
+            border: 1px solid #dce8f4;
+            border-radius: 9px;
+            background: rgb(255 255 255 / 78%);
+        }
+
+        .summary-item span {
+            display: block;
+            margin-bottom: 5px;
+            color: #62758b;
+            font-size: .82rem;
+        }
+
+        .summary-item strong {
+            overflow-wrap: anywhere;
+        }
+
+        .data-panel {
+            margin-top: 18px;
+            padding: 20px;
+        }
+
+        .data-panel > h2 {
+            margin-bottom: 6px;
+            color: #123b68;
+            font-size: 1.25rem;
+        }
+
+        .hint {
+            margin-bottom: 16px;
+            color: #62758b;
+            font-size: .92rem;
+            line-height: 1.5;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+            gap: 10px;
+        }
+
+        .data-field {
+            min-width: 0;
+            padding: 11px 12px;
+            border: 1px solid #e2e9f1;
+            border-radius: 8px;
+            background: #fbfcfe;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #52657d;
+            font-size: .85rem;
+            font-weight: 700;
+        }
+
+        .field-key {
+            display: block;
+            margin-top: 5px;
+            color: #8695a8;
+            font-size: .72rem;
+            overflow-wrap: anywhere;
+        }
+
+        .field-value {
+            display: block;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            line-height: 1.45;
+        }
+
+        details {
+            min-width: 0;
+        }
+
+        .data-group, .data-list-item {
+            margin: 8px 0;
+            border: 1px solid #dce5f0;
+            border-radius: 9px;
+            background: #fff;
+        }
+
+        .data-group > summary, .data-list-item > summary {
+            padding: 12px 14px;
+            color: #174c7c;
+            font-weight: 700;
+            cursor: pointer;
+            overflow-wrap: anywhere;
+        }
+
+        .group-content {
+            padding: 0 12px 12px;
+        }
+
+        .data-list {
+            display: grid;
+            gap: 7px;
+        }
+
+        .data-list-item {
+            margin: 0;
+            background: #fbfcfe;
+        }
+
+        .data-list-item > summary {
+            padding: 10px 12px;
+            font-size: .92rem;
+        }
+
+        .data-list-item > .field-grid,
+        .data-list-item > .data-value {
+            padding: 0 12px 12px;
+        }
+
+        .data-value {
+            color: #344b63;
+            overflow-wrap: anywhere;
+            white-space: pre-wrap;
+            line-height: 1.5;
+        }
+
+        .data-link {
+            color: #1266ae;
+            overflow-wrap: anywhere;
+        }
+
+        .json-panel {
+            margin-top: 18px;
+        }
+
+        .json-panel pre {
+            max-height: 560px;
+            margin: 0;
+            padding: 14px;
+            overflow: auto;
+            border-radius: 8px;
+            background: #142235;
+            color: #e7f0fa;
+            font: .82rem/1.55 ui-monospace, SFMono-Regular, Menlo, monospace;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 22px 12px 40px;
+            }
+
+            .weather-card {
+                grid-template-columns: 1fr;
+                padding: 19px;
+            }
+
+            .data-panel {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header class="page-header">
+            <h1>Dự báo thời tiết theo tỉnh thành</h1>
+            <p>Chọn tỉnh/thành phố để xem thời tiết hiện tại, dự báo theo ngày và giờ, cùng thông tin chất lượng không khí.</p>
+        </header>
+
+        <form id="weather-form" class="search-panel">
+            <div class="select-wrap">
+                <label for="location">Tỉnh/thành phố</label>
+                <select id="location" name="location">
+                    <option value="An Giang">An Giang</option>
+                    <option value="Bắc Ninh">Bắc Ninh</option>
+                    <option value="Cà Mau">Cà Mau</option>
+                    <option value="Cần Thơ">Cần Thơ</option>
+                    <option value="Cao Bằng">Cao Bằng</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Đắk Lắk">Đắk Lắk</option>
+                    <option value="Điện Biên">Điện Biên</option>
+                    <option value="Đồng Nai">Đồng Nai</option>
+                    <option value="Đồng Tháp">Đồng Tháp</option>
+                    <option value="Gia Lai">Gia Lai</option>
+                    <option value="Hà Nội">Hà Nội</option>
+                    <option value="Hà Tĩnh">Hà Tĩnh</option>
+                    <option value="Hải Phòng">Hải Phòng</option>
+                    <option value="Hồ Chí Minh">Hồ Chí Minh</option>
+                    <option value="Huế">Huế</option>
+                    <option value="Hưng Yên">Hưng Yên</option>
+                    <option value="Khánh Hòa">Khánh Hòa</option>
+                    <option value="Lai Châu">Lai Châu</option>
+                    <option value="Lâm Đồng">Lâm Đồng</option>
+                    <option value="Lạng Sơn">Lạng Sơn</option>
+                    <option value="Lào Cai">Lào Cai</option>
+                    <option value="Nghệ An">Nghệ An</option>
+                    <option value="Ninh Bình">Ninh Bình</option>
+                    <option value="Phú Thọ">Phú Thọ</option>
+                    <option value="Quảng Ngãi">Quảng Ngãi</option>
+                    <option value="Quảng Ninh">Quảng Ninh</option>
+                    <option value="Quảng Trị">Quảng Trị</option>
+                    <option value="Sơn La">Sơn La</option>
+                    <option value="Tây Ninh">Tây Ninh</option>
+                    <option value="Thái Nguyên">Thái Nguyên</option>
+                    <option value="Thanh Hóa">Thanh Hóa</option>
+                    <option value="Tuyên Quang">Tuyên Quang</option>
+                    <option value="Vĩnh Long" selected>Vĩnh Long</option>
+                </select>
+            </div>
+            <button id="load-button" type="submit">Xem thời tiết</button>
+        </form>
+        <p id="message" role="status" aria-live="polite"></p>
+
+        <div id="weather-content" aria-live="polite"></div>
+    </main>
+
+    <script>
+        var apiUrl = "https://eth.cnnd.vn/api-weather.htm";
+        var fieldLabels = {
+            "address": "Địa chỉ",
+            "air_quality": "Chất lượng không khí",
+            "amount_of_rain": "Lượng mưa",
+            "accu_lumen_brightness_index": "Chỉ số ánh sáng",
+            "background": "Ảnh nền",
+            "cloud_ceiling": "Độ cao mây",
+            "cloud_density": "Mật độ mây",
+            "current_weather": "Thời tiết hiện tại",
+            "date": "Ngày",
+            "day_weather": "Thời tiết ban ngày",
+            "dewpoint": "Điểm sương",
+            "forecast": "Dự báo nhiều ngày",
+            "gusts_wind": "Gió giật",
+            "high": "Nhiệt độ cao nhất",
+            "hour": "Giờ",
+            "hourly_temperature": "Dự báo theo giờ",
+            "humidity": "Độ ẩm",
+            "index": "Chỉ số",
+            "location": "Tỉnh/thành phố",
+            "low": "Nhiệt độ thấp nhất",
+            "moonrise": "Trăng mọc",
+            "moonset": "Trăng lặn",
+            "modified_date": "Thời điểm cập nhật",
+            "night_weather": "Thời tiết ban đêm",
+            "pollutant": "Chất ô nhiễm",
+            "pollutant_concentration": "Nồng độ",
+            "pollutant_index": "Chỉ số ô nhiễm",
+            "precipitations": "Khả năng có mưa",
+            "province": "Tỉnh/thành phố",
+            "province_id": "Mã tỉnh/thành phố",
+            "rainy_hour": "Số giờ mưa",
+            "real_feel": "Nhiệt độ cảm nhận",
+            "real_feel_shade": "Nhiệt độ cảm nhận trong bóng râm",
+            "sunrise": "Mặt trời mọc",
+            "sunset": "Mặt trời lặn",
+            "status": "Trạng thái",
+            "status_icon": "Biểu tượng thời tiết",
+            "temperature": "Nhiệt độ",
+            "temperature_index": "Chỉ số nhiệt độ",
+            "thunderstorm": "Khả năng có dông",
+            "timestamp": "Dấu thời gian",
+            "predictability": "Độ tin cậy dự báo",
+            "uv_index": "Chỉ số UV",
+            "visibility": "Tầm nhìn",
+            "wind": "Gió",
+            "direction": "Hướng",
+            "unit": "Đơn vị",
+            "statement": "Khuyến nghị sức khỏe"
+        };
+
+        function labelFor(key) {
+            return fieldLabels[key] || key.replaceAll("_", " ");
+        }
+
+        function formatValue(value) {
+            if (value === null) return "Không có dữ liệu";
+            if (typeof value === "boolean") return value ? "Có" : "Không";
+            return String(value);
+        }
+
+        function makeField(label, key, value) {
+            var field = document.createElement("div");
+            field.className = "data-field";
+
+            var labelElement = document.createElement("span");
+            labelElement.className = "field-label";
+            labelElement.textContent = label;
+            field.appendChild(labelElement);
+
+            if (value && typeof value === "object") {
+                field.appendChild(makeCollection(value));
+            } else if (typeof value === "string" && /^https?:\/\//i.test(value)) {
+                var link = document.createElement("a");
+                link.className = "data-link";
+                link.href = value;
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = value;
+                field.appendChild(link);
+            } else {
+                var valueElement = document.createElement("span");
+                valueElement.className = "field-value";
+                valueElement.textContent = formatValue(value);
+                field.appendChild(valueElement);
+            }
+
+            var keyElement = document.createElement("code");
+            keyElement.className = "field-key";
+            keyElement.textContent = key;
+            field.appendChild(keyElement);
+            return field;
+        }
+
+        function makeCollection(value) {
+            if (Array.isArray(value)) {
+                var list = document.createElement("div");
+                list.className = "data-list";
+                value.forEach(function (item, index) {
+                    var itemDetails = document.createElement("details");
+                    itemDetails.className = "data-list-item";
+                    var summary = document.createElement("summary");
+                    summary.textContent = summarizeItem(item, index);
+                    itemDetails.appendChild(summary);
+                    itemDetails.appendChild(makeValueContent(item));
+                    list.appendChild(itemDetails);
+                });
+                if (value.length === 0) {
+                    list.textContent = "Không có dữ liệu";
+                }
+                return list;
+            }
+
+            var grid = document.createElement("div");
+            grid.className = "field-grid";
+            Object.entries(value).forEach(function (entry) {
+                grid.appendChild(makeField(labelFor(entry[0]), entry[0], entry[1]));
+            });
+            if (Object.keys(value).length === 0) {
+                grid.textContent = "Không có dữ liệu";
+            }
+            return grid;
+        }
+
+        function makeValueContent(value) {
+            if (Array.isArray(value) || (value && typeof value === "object")) {
+                var content = document.createElement("div");
+                content.className = "group-content";
+                content.appendChild(makeCollection(value));
+                return content;
+            }
+
+            var text = document.createElement("div");
+            text.className = "data-value";
+            text.textContent = formatValue(value);
+            return text;
+        }
+
+        function summarizeItem(item, index) {
+            if (item && typeof item === "object" && !Array.isArray(item)) {
+                var time = item.hour ? " · " + item.hour + ":00" : "";
+                var date = item.date ? " · " + item.date.slice(0, 10) : "";
+                var place = item.location ? " · " + item.location : "";
+                var status = item.status ? " · " + item.status : "";
+                return "Mục " + (index + 1) + time + date + place + status;
+            }
+            return "Mục " + (index + 1);
+        }
+
+        function addGroup(parent, key, value) {
+            var group = document.createElement("details");
+            group.className = "data-group";
+            var summary = document.createElement("summary");
+            summary.textContent = labelFor(key) + " (" + key + ")";
+            group.appendChild(summary);
+            group.appendChild(makeValueContent(value));
+            parent.appendChild(group);
+        }
+
+        function addSummaryItem(parent, label, value) {
+            var item = document.createElement("div");
+            item.className = "summary-item";
+            var caption = document.createElement("span");
+            caption.textContent = label;
+            var content = document.createElement("strong");
+            content.textContent = formatValue(value);
+            item.appendChild(caption);
+            item.appendChild(content);
+            parent.appendChild(item);
+        }
+
+        function renderWeather(record, response) {
+            var content = document.getElementById("weather-content");
+            content.replaceChildren();
+
+            var card = document.createElement("section");
+            card.className = "weather-card";
+            var mainInfo = document.createElement("div");
+            var place = document.createElement("p");
+            place.className = "weather-place";
+            place.textContent = record.address || record.location || record.province || "";
+            mainInfo.appendChild(place);
+
+            var temperature = document.createElement("div");
+            temperature.className = "weather-temperature";
+            temperature.appendChild(document.createTextNode(
+                record.current_weather && record.current_weather.temperature
+                    ? record.current_weather.temperature + "°"
+                    : "--"
+            ));
+            if (record.current_weather && record.current_weather.status_icon) {
+                var icon = document.createElement("img");
+                icon.src = record.current_weather.status_icon;
+                icon.alt = record.current_weather.status || "Biểu tượng thời tiết";
+                temperature.appendChild(icon);
+            }
+            mainInfo.appendChild(temperature);
+
+            var status = document.createElement("p");
+            status.className = "weather-status";
+            status.textContent = record.current_weather
+                ? record.current_weather.status || "Chưa có mô tả thời tiết"
+                : "Chưa có dữ liệu thời tiết hiện tại";
+            mainInfo.appendChild(status);
+
+            var summary = document.createElement("div");
+            summary.className = "summary-list";
+            addSummaryItem(summary, "Nhiệt độ cao / thấp", (record.high || "--") + "° / " + (record.low || "--") + "°");
+            addSummaryItem(summary, "Chất lượng không khí", record.air_quality ? record.air_quality.status : "Chưa có dữ liệu");
+            addSummaryItem(summary, "Mặt trời mọc", record.sunrise || "Chưa có dữ liệu");
+            addSummaryItem(summary, "Mặt trời lặn", record.sunset || "Chưa có dữ liệu");
+
+            card.appendChild(mainInfo);
+            card.appendChild(summary);
+            content.appendChild(card);
+
+            var dataPanel = document.createElement("section");
+            dataPanel.className = "data-panel";
+            var heading = document.createElement("h2");
+            heading.textContent = "Toàn bộ dữ liệu theo cấu trúc API";
+            var hint = document.createElement("p");
+            hint.className = "hint";
+            hint.textContent = "Mở từng mục để xem chi tiết. Tất cả trường API, kể cả dữ liệu lồng nhau và từng mốc dự báo, đều được hiển thị.";
+            dataPanel.appendChild(heading);
+            dataPanel.appendChild(hint);
+
+            Object.entries(record).forEach(function (entry) {
+                addGroup(dataPanel, entry[0], entry[1]);
+            });
+            content.appendChild(dataPanel);
+
+            var jsonDetails = document.createElement("details");
+            jsonDetails.className = "data-panel json-panel";
+            var jsonSummary = document.createElement("summary");
+            jsonSummary.textContent = "Xem JSON gốc từ API";
+            var json = document.createElement("pre");
+            json.textContent = JSON.stringify(response, null, 2);
+            jsonDetails.appendChild(jsonSummary);
+            jsonDetails.appendChild(json);
+            content.appendChild(jsonDetails);
+        }
+
+        function loadWeather(location) {
+            var message = document.getElementById("message");
+            var button = document.getElementById("load-button");
+            var content = document.getElementById("weather-content");
+            var xhr = new XMLHttpRequest();
+            var url = apiUrl + "?query=location=" + encodeURIComponent(location);
+
+            button.disabled = true;
+            message.className = "";
+            message.textContent = "Đang tải dữ liệu thời tiết " + location + "...";
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState !== 4) return;
+
+                button.disabled = false;
+                if (xhr.status < 200 || xhr.status >= 300) {
+                    message.className = "error";
+                    message.textContent = "Không thể tải dữ liệu (HTTP " + xhr.status + "). Vui lòng thử lại.";
+                    return;
+                }
+
+                try {
+                    var response = JSON.parse(xhr.responseText);
+                    if (!response.success || !Array.isArray(response.data) || response.data.length === 0) {
+                        throw new Error(response.message || "API không trả về dữ liệu cho tỉnh/thành đã chọn.");
+                    }
+                    renderWeather(response.data[0], response);
+                    message.textContent = "Đã cập nhật dữ liệu cho " + (response.data[0].address || location) + ".";
+                } catch (error) {
+                    content.replaceChildren();
+                    message.className = "error";
+                    message.textContent = "Không đọc được dữ liệu thời tiết: " + error.message;
+                }
+            };
+            xhr.onerror = function () {
+                button.disabled = false;
+                message.className = "error";
+                message.textContent = "Lỗi kết nối API. Hãy kiểm tra kết nối mạng rồi thử lại.";
+            };
+            xhr.send();
+        }
+
+        document.getElementById("weather-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            loadWeather(document.getElementById("location").value);
+        });
+
+        loadWeather(document.getElementById("location").value);
+    </script>
+</body>
+</html>

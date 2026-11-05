@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <script>
+            var products=[
+                {name:"Coca Cola", price:100, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Coca-Cola_bottle.jpg/220px-Coca-Cola_bottle.jpg"},
+                {name:"Pepsi", price:90, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Pepsi_can_2020.png/220px-Pepsi_can_2020.png"},
+                {name:"Sprite", price:80, imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Sprite_2019_can.png/220px-Sprite_2019_can.png"}  
+            ]
+        </script>
+        <body>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody id="tbProducts">
+                </tbody>
+            </table>
+            <script>
+                var tbody=document.getElementById("tbProducts");
+                for(var i=0; i<products.length; i++){
+                    var tr=document.createElement("tr");
+                    var tdId=document.createElement("td");
+                    tdId.innerHTML=i+1;
+                    var tdName=document.createElement("td");
+                    tdName.innerHTML=products[i].name;
+                    var tdPrice=document.createElement("td");
+                    tdPrice.innerHTML=products[i].price;
+                    var tdImage=document.createElement("td");
+                    var img=document.createElement("img");
+                    img.src=products[i].imageUrl;
+                    img.width=100;
+                    tdImage.appendChild(img);
+                    tr.appendChild(tdId);
+                    tr.appendChild(tdName);
+                    tr.appendChild(tdPrice);
+                    tr.appendChild(tdImage);
+                    tbody.appendChild(tr);
+                }
+            </script>
+        </body>
+    </head> 
+</html>

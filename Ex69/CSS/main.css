@@ -1,0 +1,51 @@
+body {
+    margin: 4px;
+    color: #000;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 18px;
+}
+
+main {
+    width: fit-content;
+}
+
+select {
+    min-width: 180px;
+    font: inherit;
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+th,
+td {
+    padding: 2px 4px;
+    border: 2px solid #222;
+    text-align: left;
+    white-space: nowrap;
+}
+
+th {
+    background-color: #00f;
+    color: #fff;
+}
+
+.filter-row td {
+    height: 48px;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+tbody tr:hover {
+    background-color: #00f;
+    color: #fff;
+}

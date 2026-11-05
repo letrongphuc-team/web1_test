@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <script>
+            var product={
+                productID:1,
+                productName:"Coca Cola",
+                price:100,
+                imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Coca-Cola_bottle.jpg/220px-Coca-Cola_bottle.jpg"
+            }
+        </script>
+        <body>
+            <table border="1">
+                <tr>
+                    <td>Product ID:</td>
+                    <td id="productID"></td>
+                </tr>
+                <tr>
+                    <td>Product Name:</td>
+                    <td id="productName"></td>
+                </tr>
+                <tr>
+                    <td>Price:</td>
+                    <td id="price"></td>
+                </tr>
+                <tr>
+                    <td>Image:</td>
+                    <td><img id="imageUrl" alt="Product Image"></td>
+                </tr> 
+            </table>
+            <script>
+                document.getElementById("productID")
+                tdProductID.innerHTML=product.productID;
+                document.getElementById("productName")
+                tdProductName.innerHTML=product.productName;
+                document.getElementById("price")
+                tdPrice.innerHTML=product.price;
+                document.getElementById("tdImage")
+                imgProduct.src=product.imageUrl; 
+                var img=document.createElement("img");
+                img.src=product.imageUrl;
+                img.width=100;
+                tdImage.appendChild(img);
+            </script>
+        </body>
+    </head>
+</html>

@@ -1,0 +1,94 @@
+<html>
+    <head>
+        <title>Dynamic Table - Lê Trọng Phúc</title>
+        <script>
+            function hienThiGio() {
+                var now = new Date();
+                var gio = now.getHours();
+                var phut = now.getMinutes();
+                var giay = now.getSeconds();
+                if (gio < 10) gio = "0" + gio;
+                if (phut < 10) phut = "0" + phut;
+                if (giay < 10) giay = "0" + giay;
+                document.getElementById("divClock").innerHTML = gio + ":" + phut + ":" + giay;
+            }
+            function xuLyChuot(event) {
+                if (event.button == 0) {
+                    alert("Bạn vừa nhấn chuột trái");
+                } else if (event.button == 2) {
+                    alert("Bạn vừa nhấn chuột phải");
+                }
+            }
+            function toMauDong(row) {
+                if (row.style.backgroundColor == "red") {
+                    row.style.backgroundColor = "";
+                } else {
+                    row.style.backgroundColor = "red";
+                }
+            }
+            function themDong() {
+                var table = document.getElementById("tblDynamic");
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = "Thêm dòng mới ở đây";
+                cell2.innerHTML = "Thêm dòng mới ở đây";
+                row.onclick = function () {
+                    toMauDong(this);
+                };
+            }
+            function xoaDong() {
+                var table = document.getElementById("tblDynamic");
+                // duyệt từ dưới lên để xóa không bị lệch chỉ số
+                for (var i = table.rows.length - 1; i >= 0; i--) {
+                    if (table.rows[i].style.backgroundColor == "red") {
+                        table.deleteRow(i);
+                    }
+                }
+            }
+            function chiHienDong() {
+                var table = document.getElementById("tblDynamic");
+                alert("Số dòng của Table: " + table.rows.length);
+            }
+            function chiHienCot() {
+                var table = document.getElementById("tblDynamic");
+                if (table.rows.length > 0) {
+                    alert("Số cột của Table: " + table.rows[0].cells.length);
+                } else {
+                    alert("Table chưa có dòng nào");
+                }
+            }
+            function moTrangMoi() {
+                window.open("https://tranduythanh.com");
+            }
+        </script>
+    </head>
+    <body>
+        <div id="divClock"></div>
+        <p onmousedown="xuLyChuot(event)">Click chuột vào dòng này. Sẽ xuất hiện thông báo phím bấm của chuột</p>
+        <table border="1" id="tblDynamic" width="440">
+            <tr onclick="toMauDong(this)">
+                <td>Dòng 1 cột 1</td>
+                <td>Dòng 1 cột 2</td>
+            </tr>
+            <tr onclick="toMauDong(this)">
+                <td>Dòng 2 cột 1</td>
+                <td>Dòng 2 cột 2</td>
+            </tr>
+            <tr onclick="toMauDong(this)">
+                <td>Dòng 3 cột 1</td>
+                <td>Dòng 3 cột 2</td>
+            </tr>
+        </table>
+        <br>
+        <button onclick="themDong()">Thêm vào</button>
+        <button onclick="xoaDong()">Xoá</button>
+        <button onclick="chiHienDong()">Chỉ hiện dòng</button>
+        <button onclick="chiHienCot()">Chỉ hiện cột</button>
+        <button onclick="moTrangMoi()">Mở một trang mới</button>
+        <script>
+            hienThiGio();
+            setInterval(hienThiGio, 1000);
+        </script>
+    </body>
+</html>

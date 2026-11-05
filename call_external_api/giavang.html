@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#164d3e">
+  <meta name="description" content="Theo dõi giá vàng SJC, PNJ, nữ trang và vàng thế giới từ VnExpress. Tra cứu, so sánh và quy đổi giá vàng dễ dàng.">
+  <title>Nhịp Vàng — Giá vàng & thị trường</title>
+  <style>
+    :root { --bg:#f5f5ef; --paper:#fff; --ink:#233b32; --muted:#717b73; --line:#e7e9e1; --green:#164d3e; --green-soft:#edf4ef; --gold:#b18a43; --red:#b65045; --radius:18px; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:24px; }
+    body { margin:0; color:var(--ink); background:var(--bg); font-family:Inter,"Segoe UI",Arial,sans-serif; font-size:14px; line-height:1.5; }
+    button,input,select { font:inherit; }
+    button,select { cursor:pointer; }
+    button,a,input,select { -webkit-tap-highlight-color:transparent; }
+    button { color:inherit; }
+    a { color:inherit; text-decoration:none; }
+    button { border:0; }
+    button:disabled { cursor:wait; opacity:.55; }
+    :focus-visible { outline:3px solid #c4a363; outline-offset:4px; }
+    .skip-link { position:fixed; left:16px; top:-70px; z-index:5; padding:12px; background:var(--green); color:#fff; }
+    .skip-link:focus { top:10px; }
+    .shell { width:min(1380px,calc(100% - 80px)); margin:auto; }
+    .site-header { background:#fcfcf8; border-bottom:1px solid var(--line); }
+    .header-inner { height:88px; display:flex; align-items:center; gap:50px; }
+    .brand { display:flex; align-items:center; gap:11px; font-size:22px; font-weight:750; letter-spacing:-.8px; white-space:nowrap; }
+    .brand-mark { display:grid; place-items:center; width:40px; height:40px; background:var(--green); color:#e7c88e; border-radius:12px; }
+    svg.icon { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; flex-shrink:0; }
+    .brand-mark svg { width:27px; height:27px; }
+    .nav { display:flex; height:100%; gap:30px; align-items:center; }
+    .nav a { display:flex; height:100%; align-items:center; color:var(--muted); font-size:13px; }
+    .nav a.active { color:var(--green); box-shadow:inset 0 -3px var(--green); font-weight:650; }
+    .header-note { margin-left:auto; display:flex; align-items:center; gap:7px; color:var(--muted); font-size:12px; }
+    .dot { display:inline-block; height:7px; width:7px; border-radius:50%; background:#6c957a; flex-shrink:0; }
+    main { padding:33px 0 22px; }
+    .breadcrumb { font-size:11px; letter-spacing:1.6px; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:10px; }
+    .breadcrumb span:last-child { color:var(--gold); }
+    .intro { display:flex; justify-content:space-between; align-items:center; gap:24px; margin:13px 0 28px; }
+    h1 { margin:0 0 8px; font-family:Georgia,"Times New Roman",serif; font-weight:400; font-size:46px; line-height:1.2; letter-spacing:-1.7px; }
+    .intro p { margin:0; color:var(--muted); font-size:13px; }
+    .refresh-area { display:flex; align-items:center; gap:18px; }
+    .refresh-meta { text-align:right; font-size:11px; color:var(--muted); }
+    .refresh-meta strong { display:block; font-size:12px; font-weight:500; color:var(--ink); margin-top:3px; }
+    .button { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 17px; border-radius:9px; background:var(--green); color:white; font-size:12px; font-weight:600; white-space:nowrap; transition:background .2s; }
+    .button:hover { background:#22644e; }
+    .button.secondary { background:white; color:var(--ink); border:1px solid var(--line); }
+    .button.secondary:hover { background:#f4f6f1; }
+    .status-bar { display:flex; align-items:center; justify-content:space-between; gap:15px; font-size:11px; margin-bottom:17px; color:var(--muted); }
+    .status-message { display:flex; align-items:center; gap:8px; }
+    .status-message[data-state="error"] { color:var(--red); }
+    .status-message[data-state="error"] .dot { background:var(--red); }
+    .auto-refresh { display:flex; align-items:center; gap:8px; cursor:pointer; white-space:nowrap; }
+    .auto-refresh input { accent-color:var(--green); width:14px; height:14px; margin:0; }
+    .error-box { margin-bottom:18px; border:1px solid #e9d1bc; border-radius:12px; background:#fff8eb; padding:16px 20px; color:#765333; }
+    .error-box strong { display:block; margin-bottom:5px; }
+    .error-box p { margin:0; font-size:12px; }
+    .error-box code { font-size:12px; overflow-wrap:anywhere; }
+    .overview { display:grid; grid-template-columns:1.08fr 1.08fr 1fr 1fr; gap:16px; margin-bottom:26px; }
+    .metric { min-height:168px; padding:22px 24px; border:1px solid var(--line); border-radius:var(--radius); background:var(--paper); position:relative; overflow:hidden; }
+    .metric.primary { background:var(--green); color:#fff; border-color:var(--green); }
+    .metric.primary::after { content:""; width:140px; height:140px; border:1px solid #ffffff12; border-radius:50%; position:absolute; right:-65px; top:-65px; box-shadow:0 0 0 22px #ffffff05,0 0 0 44px #ffffff04; pointer-events:none; }
+    .metric-heading { display:flex; align-items:center; justify-content:space-between; gap:10px; color:var(--muted); font-size:11px; }
+    .metric.primary .metric-heading { color:#c0d4c9; }
+    .metric-heading .icon { width:17px; height:17px; }
+    .metric-value { display:block; font-size:34px; font-weight:600; letter-spacing:-1.3px; line-height:1.2; margin-top:18px; font-variant-numeric:tabular-nums; }
+    .metric-unit { color:var(--muted); font-size:10px; margin-top:3px; }
+    .metric.primary .metric-unit { color:#b3cdc0; }
+    .metric-bottom { display:flex; align-items:center; gap:7px; margin-top:15px; font-size:10px; color:var(--muted); }
+    .metric.primary .metric-bottom { color:#d5e2da; }
+    .metric-bottom .change { font-size:10px; }
+    .workspace { display:grid; grid-template-columns:minmax(0,1fr) 340px; align-items:start; gap:22px; }
+    .panel { background:white; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+    .panel-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:24px 24px 18px; }
+    h2 { margin:0; font-size:17px; font-weight:650; letter-spacing:-.45px; }
+    .subheading { color:var(--muted); font-size:11px; margin:5px 0 0; }
+    .badge { display:inline-flex; align-items:center; gap:5px; border:1px solid var(--line); padding:4px 8px; border-radius:6px; font-size:10px; color:var(--muted); white-space:nowrap; }
+    .toolbar { padding:0 24px 18px; display:flex; gap:10px; }
+    .search-box { flex:1; position:relative; min-width:120px; }
+    .search-box svg { position:absolute; left:12px; top:12px; color:#8b938d; width:16px; height:16px; }
+    .search-box input { width:100%; padding:11px 12px 11px 36px; }
+    input,select { color:var(--ink); border:1px solid var(--line); border-radius:8px; background:#fff; outline-offset:2px; }
+    input::placeholder { color:#90978f; }
+    .sort-select { max-width:165px; padding:9px; font-size:11px; }
+    .filter-row { padding:0 24px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .tabs { display:flex; gap:5px; background:#f4f5f0; border-radius:8px; padding:4px; }
+    .tab { background:transparent; padding:6px 12px; border-radius:5px; color:var(--muted); font-size:11px; white-space:nowrap; }
+    .tab[aria-pressed="true"] { background:white; color:var(--green); box-shadow:0 1px 4px #1b3f2610; font-weight:600; }
+    .unit-select { padding:6px 4px; font-size:10px; border-color:transparent; color:var(--muted); max-width:130px; }
+    .table-scroll { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; text-align:left; white-space:nowrap; }
+    thead { background:#f9faf6; border-block:1px solid var(--line); }
+    th { font-size:10px; font-weight:500; color:var(--muted); padding:13px 14px; }
+    th:first-child,td:first-child { padding-left:24px; }
+    th:last-child,td:last-child { padding-right:24px; }
+    td { padding:16px 14px; border-bottom:1px solid #eff0eb; font-size:12px; }
+    th.number,td.number { text-align:right; font-variant-numeric:tabular-nums; }
+    tbody tr:hover { background:#fafbf7; }
+    tbody tr.selected { background:#f2f6ef; }
+    .product-button { display:flex; gap:11px; align-items:center; padding:0; border:0; background:transparent; text-align:left; }
+    .product-icon { display:grid; place-items:center; width:32px; height:32px; border:1px solid #eee4cb; background:#f9f5e9; color:#a57d31; border-radius:9px; font-size:9px; font-weight:700; }
+    .product-icon.pnj { background:#f0f4f8; color:#4b6885; border-color:#e2e9f0; }
+    .product-icon.jewelry { background:#f6eff6; color:#8a6c8e; border-color:#ece1ed; }
+    .product-name { font-size:11px; font-weight:600; }
+    .product-date { display:block; margin-top:3px; font-size:9px; color:var(--muted); font-weight:400; }
+    td.buy { color:var(--green); font-weight:650; }
+    td.sell { font-weight:650; }
+    .change { display:inline-block; color:#7a837a; font-size:10px; white-space:nowrap; }
+    .change.up { color:#23744f; }
+    .change.down { color:var(--red); }
+    .table-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:17px 24px; font-size:10px; color:var(--muted); }
+    .table-footer .button { font-size:10px; padding:7px 10px; }
+    .empty-state { padding:60px 20px; text-align:center; color:var(--muted); font-size:12px; }
+    .table-note { padding:16px 2px; display:flex; gap:9px; font-size:10px; color:var(--muted); line-height:1.7; }
+    .table-note svg { width:15px; height:15px; margin-top:2px; }
+    .side-column { display:grid; gap:20px; }
+    .chart-panel .panel-heading { padding-bottom:13px; }
+    .section-icon { color:var(--gold); }
+    .chart-controls { padding:0 24px; display:flex; align-items:center; gap:10px; }
+    .chart-controls select { flex:1; min-width:0; width:100%; padding:8px; font-size:10px; }
+    .periods { display:flex; gap:4px; }
+    .period { padding:6px; font-size:9px; color:var(--muted); border-radius:5px; background:#f4f5f0; }
+    .period[aria-pressed="true"] { background:var(--green); color:white; }
+    .chart-legend { display:flex; gap:14px; padding:16px 24px 0; font-size:9px; color:var(--muted); }
+    .legend-line { display:inline-block; height:2px; width:12px; background:var(--green); margin:0 5px 3px 0; }
+    .legend-line.sell { background:var(--gold); }
+    .chart-wrap { padding:7px 16px 0; }
+    #priceChart { display:block; width:100%; height:auto; overflow:visible; }
+    .chart-caption { padding:0 24px 19px; font-size:9px; color:var(--muted); }
+    .converter { padding:23px 24px; background:#f1f3e9; border-color:#e3e7d6; }
+    .converter-heading { display:flex; align-items:center; justify-content:space-between; }
+    .converter h2 { font-size:16px; }
+    .converter .subheading { font-size:10px; margin-bottom:18px; }
+    .field-label { display:block; font-size:10px; color:var(--muted); margin-bottom:6px; }
+    .converter select,.converter input { padding:9px 10px; width:100%; font-size:11px; background:#ffffffb8; }
+    .quantity-row { display:grid; grid-template-columns:1fr 86px; gap:8px; margin-bottom:13px; }
+    .estimate { border-top:1px dashed #cdd4c2; margin-top:17px; padding-top:14px; }
+    .estimate span { color:var(--muted); font-size:10px; }
+    .estimate strong { display:block; margin:5px 0 3px; font-size:25px; font-weight:650; color:var(--green); letter-spacing:-.7px; font-variant-numeric:tabular-nums; }
+    .estimate small { color:var(--muted); font-size:9px; }
+    .converter-error { color:var(--red); font-size:10px; margin:7px 0 0; }
+    footer { margin-top:20px; border-top:1px solid var(--line); padding:22px 0; display:flex; justify-content:space-between; gap:20px; color:var(--muted); font-size:10px; }
+    footer a { text-decoration:underline; text-underline-offset:3px; }
+    .footer-brand { color:var(--green); font-weight:650; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    [hidden] { display:none !important; }
+    @media(min-width:1400px) { .workspace { grid-template-columns:minmax(0,1fr) 365px; } td { padding-block:19px; } }
+    @media(max-width:1150px) { .shell { width:calc(100% - 48px); } .workspace { grid-template-columns:minmax(0,1fr) 305px; gap:17px; } .metric { padding:20px; } .metric-value { font-size:29px; } .panel-heading { padding-inline:18px; } .toolbar,.filter-row { padding-inline:18px; } td,th { padding-inline:10px; } th:first-child,td:first-child { padding-left:18px; } th:last-child,td:last-child { padding-right:18px; } .product-icon { display:none; } .tab { padding-inline:9px; } }
+    @media(max-width:960px) { .workspace { grid-template-columns:1fr; } .side-column { grid-template-columns:1fr 1fr; align-items:start; } .overview { gap:12px; } .header-inner { gap:35px; } .header-note { display:none; } .metric-value { font-size:26px; } .metric { padding:18px; } .product-icon { display:grid; } }
+    @media(max-width:650px) { .shell { width:calc(100% - 32px); } .header-inner { height:72px; justify-content:space-between; gap:15px; } .brand { font-size:20px; } .brand-mark { width:34px; height:34px; } .nav { gap:17px; } .nav a { font-size:11px; } .nav a:last-child { display:none; } main { padding-top:25px; } h1 { font-size:37px; } .intro { display:block; margin-bottom:21px; } .intro p { max-width:290px; font-size:12px; } .refresh-area { margin-top:20px; flex-direction:row-reverse; justify-content:space-between; } .refresh-meta { text-align:right; } .refresh-meta strong { font-size:10px; } .status-bar { align-items:flex-start; font-size:10px; } .status-message { max-width:56%; } .auto-refresh { font-size:10px; } .overview { grid-template-columns:1fr 1fr; margin-bottom:20px; } .metric { min-height:156px; padding:17px; border-radius:13px; } .metric-value { font-size:28px; margin-top:15px; } .metric-heading { font-size:10px; } .metric-bottom { font-size:9px; margin-top:12px; } .metric-bottom .change { font-size:9px; } .side-column { grid-template-columns:1fr; gap:16px; } .panel-heading { padding-top:20px; } h2 { font-size:16px; } .badge { font-size:9px; } .toolbar { flex-wrap:wrap; gap:8px; } .sort-select { max-width:135px; width:135px; font-size:10px; } .search-box input { font-size:11px; } .filter-row { flex-wrap:wrap; } .tabs { gap:0; } .unit-select { margin-left:auto; } .product-icon { display:none; } td,th { padding-inline:12px; } .table-footer { padding-inline:18px; } .table-note { margin-bottom:0; padding-bottom:0; } .chart-wrap { max-width:470px; width:100%; margin:auto; } footer { flex-direction:column; gap:7px; margin-top:25px; } }
+    @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } * { transition:none !important; } }
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-gold" viewBox="0 0 24 24"><path d="m5 8 7-4 7 4 3 10H2L5 8Z"/><path d="M5 8h14M9 8l-2 10M15 8l2 10"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 6.1A8 8 0 0 1 20 12M4 12a8 8 0 0 0 13.9 5.9"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v16m-6-6 6 6 6-6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 20V4m-6 6 6-6 6 6"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 4v16h16M8 15l4-5 4 2 4-7"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.2"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 11h1m6 0h1M8 15h1m6 0h1M8 19h1m6 0h1"/></symbol>
+  </svg>
+  <a class="skip-link" href="#bang-gia">Đến bảng giá</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#" aria-label="Nhịp Vàng — Trang đầu"><span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-gold"/></svg></span>nhịp vàng<span style="color:var(--gold);margin-left:-9px">.</span></a>
+      <nav class="nav" aria-label="Điều hướng chính"><a class="active" href="#bang-gia">Bảng giá vàng</a><a href="#dien-bien">Diễn biến</a><a href="#quy-doi">Quy đổi</a></nav>
+      <span class="header-note"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> Thị trường Việt Nam</span>
+    </div>
+  </header>
+  <main class="shell">
+    <div class="breadcrumb"><span>Thị trường</span><span>/</span><span>Kim loại quý</span></div>
+    <section class="intro" aria-labelledby="pageTitle">
+      <div><h1 id="pageTitle">Thị trường vàng</h1><p>Mỗi biến động, một góc nhìn. Theo dõi giá vàng mỗi ngày.</p></div>
+      <div class="refresh-area">
+        <div class="refresh-meta">Ngày dữ liệu<strong id="dataDate">Đang kết nối…</strong></div>
+        <button class="button" id="refreshButton" type="button"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg><span id="refreshLabel">Cập nhật giá</span></button>
+      </div>
+    </section>
+    <div class="status-bar">
+      <div class="status-message" id="statusMessage" data-state="loading" role="status" aria-live="polite"><span class="dot"></span><span id="statusText">Đang tải dữ liệu từ VnExpress…</span></div>
+      <label class="auto-refresh"><input type="checkbox" id="autoRefresh"> Tự cập nhật mỗi 60 giây</label>
+    </div>
+    <div class="error-box" id="errorBox" role="alert" hidden><strong id="errorTitle">Chưa thể tải dữ liệu</strong><p id="errorText"></p><p id="serverHint" hidden style="margin-top:8px">Chạy <code>python3 call_external_api/serve_giavang.py</code> trong thư mục HỌC CODE, rồi mở <a href="http://localhost:8000/giavang.html" style="text-decoration:underline">http://localhost:8000/giavang.html</a>.</p></div>
+    <section class="overview" aria-label="Tổng quan giá vàng">
+      <article class="metric primary"><div class="metric-heading"><span id="buyTitle">SJC · Mua vào</span><svg class="icon" aria-hidden="true"><use href="#i-down"/></svg></div><strong class="metric-value" id="buyValue">—</strong><div class="metric-unit">triệu đồng / lượng</div><div class="metric-bottom"><span id="buyChange">Chờ dữ liệu</span><span>so với kỳ trước</span></div></article>
+      <article class="metric"><div class="metric-heading"><span id="sellTitle">SJC · Bán ra</span><svg class="icon" aria-hidden="true"><use href="#i-up"/></svg></div><strong class="metric-value" id="sellValue">—</strong><div class="metric-unit">triệu đồng / lượng</div><div class="metric-bottom"><span id="sellChange">Chờ dữ liệu</span><span>so với kỳ trước</span></div></article>
+      <article class="metric"><div class="metric-heading"><span>Chênh lệch mua – bán</span><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg></div><strong class="metric-value" id="spreadValue">—</strong><div class="metric-unit">triệu đồng / lượng</div><div class="metric-bottom" id="spreadCaption">Chọn một loại vàng để theo dõi</div></article>
+      <article class="metric"><div class="metric-heading"><span>Vàng thế giới · Bán ra</span><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></div><strong class="metric-value" id="worldValue">—</strong><div class="metric-unit">USD / ounce</div><div class="metric-bottom"><span id="worldChange">Chờ dữ liệu</span><span>so với kỳ trước</span></div></article>
+    </section>
+    <div class="workspace">
+      <div>
+        <section class="panel" id="bang-gia" aria-labelledby="tableTitle">
+          <div class="panel-heading"><div><h2 id="tableTitle">Bảng giá vàng trong nước</h2><p class="subheading">Chọn loại vàng để xem diễn biến và quy đổi.</p></div><span class="badge"><span class="dot"></span><span id="productCount">Đang tải</span></span></div>
+          <div class="toolbar">
+            <div class="search-box"><label class="sr-only" for="searchInput">Tìm loại vàng hoặc khu vực</label><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="searchInput" type="search" placeholder="Tìm loại vàng, khu vực…" autocomplete="off"></div>
+            <label class="sr-only" for="sortSelect">Sắp xếp bảng giá</label><select id="sortSelect" class="sort-select"><option value="default">Sắp xếp mặc định</option value="buy-desc">Mua vào cao nhất</option><option value="sell-asc">Bán ra thấp nhất</option><option value="spread-asc">Chênh lệch thấp nhất</option><option value="name">Tên A → Z</option></select>
+          </div>
+          <div class="filter-row">
+            <div class="tabs" role="group" aria-label="Lọc thương hiệu"><button class="tab" type="button" data-filter="all" aria-pressed="true">Tất cả</button><button class="tab" type="button" data-filter="sjc" aria-pressed="false">SJC</button><button class="tab" type="button" data-filter="pnj" aria-pressed="false">PNJ</button><button class="tab" type="button" data-filter="jewelry" aria-pressed="false">Nữ trang</button></div>
+            <label class="sr-only" for="displayUnit">Đơn vị bảng giá</label><select id="displayUnit" class="unit-select"><option value="million">Triệu đồng/lượng</option><option value="vnd">Đồng/lượng</option></select>
+          </div>
+          <div class="table-scroll" role="region" aria-label="Bảng giá vàng, cuộn ngang để xem thêm trên điện thoại" tabindex="0">
+            <table><caption class="sr-only">Giá mua, bán, chênh lệch và thay đổi giá bán so với kỳ trước. Đơn vị theo lựa chọn phía trên.</caption><thead><tr><th scope="col">Loại vàng / Khu vực</th><th class="number" scope="col">Mua vào</th><th class="number" scope="col">Bán ra</th><th class="number" scope="col">Chênh lệch</th><th class="number" scope="col">Thay đổi bán</th></tr></thead><tbody id="goldTable"><tr><td colspan="5" class="empty-state">Đang tải bảng giá vàng…</td></tr></tbody></table>
+          </div>
+          <div class="table-footer"><span id="resultCount" aria-live="polite">Chờ dữ liệu từ thị trường</span><button class="button secondary" id="exportButton" type="button" disabled><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Xuất CSV</button></div>
+        </section>
+        <div class="table-note"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><span>Mua vào: giá cửa hàng mua từ bạn. Bán ra: giá cửa hàng bán cho bạn.<br>Biến động được so với kỳ trước do nguồn cung cấp. Giá thế giới hiển thị riêng theo USD/ounce.</span></div>
+      </div>
+      <aside class="side-column" aria-label="Diễn biến và công cụ quy đổi">
+        <section class="panel chart-panel" id="dien-bien" aria-labelledby="chartTitle">
+          <div class="panel-heading"><div><h2 id="chartTitle">Diễn biến giá vàng</h2><p class="subheading">Đơn vị: triệu đồng / lượng</p></div><svg class="icon section-icon" aria-hidden="true"><use href="#i-chart"/></svg></div>
+          <div class="chart-controls"><label class="sr-only" for="productSelect">Loại vàng theo dõi</label><select id="productSelect" disabled><option>Đang tải…</option></select><div class="periods" role="group" aria-label="Khoảng thời gian biểu đồ"><button type="button" class="period" data-days="7" aria-pressed="false">7N</button><button type="button" class="period" data-days="30" aria-pressed="true">30N</button></div></div>
+          <div class="chart-legend"><span><i class="legend-line"></i>Mua vào</span><span><i class="legend-line sell"></i>Bán ra</span></div>
+          <div class="chart-wrap"><svg id="priceChart" viewBox="0 0 310 185" role="img" aria-label="Biểu đồ đang chờ dữ liệu"><text x="155" y="90" text-anchor="middle" fill="#717b73" font-size="11">Đang tải lịch sử giá…</text></svg></div>
+          <div class="chart-caption" id="chartCaption">Lịch sử thực tế từ VnExpress</div>
+        </section>
+        <section class="panel converter" id="quy-doi" aria-labelledby="converterTitle">
+          <div class="converter-heading"><h2 id="converterTitle">Quy đổi nhanh</h2><svg class="icon section-icon" aria-hidden="true"><use href="#i-calc"/></svg></div><p class="subheading" id="converterProduct">Theo giá loại vàng đang chọn</p>
+          <label class="field-label" for="quantity">Số lượng vàng</label><div class="quantity-row"><input id="quantity" type="number" inputmode="decimal" min="0" max="1000000" step="any" value="1"><label class="sr-only" for="quantityUnit">Đơn vị khối lượng</label><select id="quantityUnit"><option value="1">Lượng</option><option value="0.1">Chỉ</option><option value="0.02666666666666667">Gram</option></select></div>
+          <label class="field-label" for="transactionType">Bạn muốn</label><select id="transactionType"><option value="sell">Mua vàng · theo giá bán ra</option><option value="buy">Bán vàng · theo giá mua vào</option></select>
+          <p class="converter-error" id="converterError" role="status" hidden>Nhập số lượng từ 0 đến 1.000.000.</p><div class="estimate"><span>Giá trị ước tính</span><strong id="estimateValue">—</strong><small>1 lượng = 10 chỉ = 37,5 gram. Chưa gồm phí.</small></div>
+        </section>
+      </aside>
+    </div>
+    <footer><span><span class="footer-brand">nhịp vàng.</span> &nbsp; Một góc nhìn rõ ràng về thị trường.</span><span>Nguồn: <a href="https://vnexpress.net/chu-de/gia-vang-1403" target="_blank" rel="noopener noreferrer">VnExpress</a> · Giá tham khảo theo ngày dữ liệu.</span></footer>
+  </main>
+  <noscript><p style="padding:24px;text-align:center">Vui lòng bật JavaScript để tải và tra cứu giá vàng.</p></noscript>
+  <script>
+    "use strict";
+
+    // XMLHttpRequest đọc JSON. Máy chủ đi kèm chuyển tiếp API khi VnExpress chặn CORS.
+    const API_URL = "https://gw.vnexpress.net/cr/?name=tygia_vangv202206";
+    const PROXY_URL = new URL("api/gold", window.location.href).href;
+    const $ = (id) => document.getElementById(id);
+    const state = { rows: [], gold: {}, charts: {}, selected: "", filter: "all", days: 30, loading: false, timer: null, endpoint: null };
+    const numberFormat = new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 3 });
+    const compactFormat = new Intl.NumberFormat("vi-VN", { minimumFractionDigits: 2, maximumFractionDigits: 3 });
+    const moneyFormat = new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 0 });
+    const normalize = (value) => String(value).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toLowerCase();
+    const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+    const dateNumber = (value) => { const [day, month, year] = String(value).split("/").map(Number); return Date.UTC(year, month - 1, day); };
+    const category = (key) => key.includes("pnj") ? "pnj" : key.includes("sjc") ? "sjc" : "jewelry";
+    // Giá trong nước của API: nghìn đồng/lượng; vàng thế giới: USD/ounce.
+    const displayPrice = (value) => numberFormat.format($("displayUnit").value === "vnd" ? value * 1000 : value / 1000);
+
+    function requestJSON(url) {
+      return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url, true);
+        xhr.timeout = 15000;
+        xhr.onload = function () {
+          if (xhr.status < 200 || xhr.status >= 300) { reject(new Error("Máy chủ phản hồi HTTP " + xhr.status + ".")); return; }
+          try {
+            const response = JSON.parse(xhr.responseText);
+            if (response.code !== 200 || !response.data?.data?.gold?.new) throw new Error("Dữ liệu API không đúng cấu trúc mong đợi.");
+            resolve(response);
+          } catch (error) { reject(error); }
+        };
+        xhr.onerror = () => reject(new Error("Không kết nối được API. Hãy kiểm tra mạng hoặc chạy máy chủ đi kèm để hỗ trợ CORS."));
+        xhr.ontimeout = () => reject(new Error("Kết nối quá 15 giây. Vui lòng thử cập nhật lại."));
+        xhr.send();
+      });
+    }
+
+    async function loadGold() {
+      if (state.loading) return;
+      state.loading = true;
+      $("refreshButton").disabled = true;
+      $("refreshLabel").textContent = "Đang tải…";
+      $("goldTable").setAttribute("aria-busy", "true");
+      setStatus("loading", "Đang cập nhật dữ liệu…");
+      try {
+        let response;
+        // Ưu tiên đường dẫn đã tải thành công. Lần đầu thử trực tiếp URL người dùng cung cấp.
+        try {
+          response = await requestJSON(state.endpoint || API_URL);
+          state.endpoint = state.endpoint || API_URL;
+        } catch (error) {
+          if (location.protocol === "file:" || state.endpoint === PROXY_URL) throw error;
+          response = await requestJSON(PROXY_URL);
+          state.endpoint = PROXY_URL;
+        }
+        const data = response.data.data;
+        const rows = Object.entries(data.gold.new)
+          .filter(([key, item]) => key !== "thegioi" && item && typeof item.label === "string" && Number.isFinite(item.buy) && Number.isFinite(item.sell) && item.buy > 0 && item.sell > 0)
+          .map(([key, item]) => ({ ...item, key, category: category(key), old: data.gold.old?.[key] }));
+        if (!rows.length) throw new Error("API chưa có giá vàng trong nước hợp lệ.");
+        state.rows = rows;
+        state.gold = data.gold;
+        state.charts = data.chart || {};
+        if (!rows.some((row) => row.key === state.selected)) state.selected = rows.find((row) => row.key === "sjc_1l_10l")?.key || rows[0].key;
+        $("productSelect").innerHTML = rows.map((row) => `<option value="${escapeHTML(row.key)}">${escapeHTML(row.label)}</option>`).join("");
+        $("productSelect").disabled = false;
+        $("productSelect").value = state.selected;
+        $("productCount").textContent = rows.length + " loại vàng";
+        const latestDate = rows.map((row) => row.date_label).filter((date) => Number.isFinite(dateNumber(date))).sort((a, b) => dateNumber(b) - dateNumber(a))[0];
+        $("dataDate").textContent = latestDate || "Chưa có ngày dữ liệu";
+        $("errorBox").hidden = true;
+        const time = new Intl.DateTimeFormat("vi-VN", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Asia/Ho_Chi_Minh" }).format(new Date());
+        setStatus("success", "Đã tải từ VnExpress lúc " + time);
+        renderTable();
+        renderSelection();
+        renderWorld();
+      } catch (error) {
+        setStatus("error", state.rows.length ? "Cập nhật thất bại · đang giữ dữ liệu đã tải" : "Chưa kết nối được nguồn dữ liệu");
+        $("errorTitle").textContent = state.rows.length ? "Chưa thể cập nhật giá mới" : "Chưa thể tải giá vàng";
+        $("errorText").textContent = error.message + (state.rows.length ? " Bảng hiện tại là dữ liệu từ lần tải thành công gần nhất." : "");
+        $("serverHint").hidden = state.endpoint === PROXY_URL;
+        $("errorBox").hidden = false;
+        if (!state.rows.length) {
+          $("goldTable").innerHTML = '<tr><td colspan="5" class="empty-state">Chưa có dữ liệu. Kiểm tra kết nối rồi chọn “Cập nhật giá”.</td></tr>';
+          $("productCount").textContent = "Chưa có dữ liệu";
+          $("resultCount").textContent = "0 loại vàng";
+          $("priceChart").innerHTML = '<text x="155" y="90" text-anchor="middle" fill="#717b73" font-size="11">Chưa có lịch sử giá</text>';
+          $("priceChart").setAttribute("aria-label", "Chưa có lịch sử giá");
+        }
+      } finally {
+        state.loading = false;
+        $("refreshButton").disabled = false;
+        $("refreshLabel").textContent = "Cập nhật giá";
+        $("goldTable").setAttribute("aria-busy", "false");
+      }
+    }
+
+    function setStatus(status, message) {
+      $("statusMessage").dataset.state = status;
+      $("statusText").textContent = message;
+    }
+
+    function changeMarkup(value, formatter = numberFormat) {
+      if (!Number.isFinite(value)) return '<span class="change">—</span>';
+      if (value === 0) return '<span class="change">— Không đổi</span>';
+      return `<span class="change ${value > 0 ? "up" : "down"}">${value > 0 ? "↑ +" : "↓ −"}${formatter.format(Math.abs(value))}</span>`;
+    }
+
+    function filteredRows() {
+      const query = normalize($("searchInput").value.trim());
+      const rows = state.rows.filter((row) => (state.filter === "all" || row.category === state.filter) && normalize(row.label).includes(query));
+      const sorts = { "buy-desc": (a,b) => b.buy - a.buy, "sell-asc": (a,b) => a.sell - b.sell, "spread-asc": (a,b) => (a.sell-a.buy) - (b.sell-b.buy), name: (a,b) => a.label.localeCompare(b.label, "vi") };
+      return sorts[$("sortSelect").value] ? rows.sort(sorts[$("sortSelect").value]) : rows;
+    }
+
+    function renderTable() {
+      const rows = filteredRows();
+      $("goldTable").innerHTML = rows.length ? rows.map((row) => {
+        const delta = Number.isFinite(row.old?.sell) ? row.sell - row.old.sell : NaN;
+        const formattedDelta = $("displayUnit").value === "vnd" ? delta * 1000 : delta / 1000;
+        const icon = row.category === "jewelry" ? "99" : row.category.toUpperCase();
+        return `<tr class="${row.key === state.selected ? "selected" : ""}"><td><button type="button" class="product-button" data-product="${escapeHTML(row.key)}" aria-pressed="${row.key === state.selected}"><span class="product-icon ${row.category}" aria-hidden="true">${icon}</span><span class="product-name">${escapeHTML(row.label)}<span class="product-date">${escapeHTML(row.date_label || "Chưa có ngày")}</span></span></button></td><td class="number buy">${displayPrice(row.buy)}</td><td class="number sell">${displayPrice(row.sell)}</td><td class="number">${displayPrice(row.sell-row.buy)}</td><td class="number">${changeMarkup(formattedDelta)}</td></tr>`;
+      }).join("") : '<tr><td colspan="5" class="empty-state">Không tìm thấy loại vàng phù hợp. Thử từ khóa hoặc bộ lọc khác.</td></tr>';
+      $("resultCount").textContent = `Hiển thị ${rows.length} / ${state.rows.length} loại vàng`;
+      $("exportButton").disabled = rows.length === 0;
+    }
+
+    function selectedRow() { return state.rows.find((row) => row.key === state.selected); }
+
+    function renderSelection() {
+      const row = selectedRow();
+      if (!row) return;
+      $("buyTitle").textContent = row.label + " · Mua vào";
+      $("sellTitle").textContent = row.label + " · Bán ra";
+      $("buyValue").textContent = compactFormat.format(row.buy / 1000);
+      $("sellValue").textContent = compactFormat.format(row.sell / 1000);
+      $("spreadValue").textContent = compactFormat.format((row.sell-row.buy) / 1000);
+      $("spreadCaption").textContent = row.label;
+      $("buyChange").innerHTML = changeMarkup(Number.isFinite(row.old?.buy) ? (row.buy-row.old.buy)/1000 : NaN);
+      $("sellChange").innerHTML = changeMarkup(Number.isFinite(row.old?.sell) ? (row.sell-row.old.sell)/1000 : NaN);
+      $("converterProduct").textContent = "Theo giá " + row.label + " · " + (row.date_label || "");
+      renderChart();
+      renderEstimate();
+    }
+
+    function renderWorld() {
+      const world = state.gold.new?.thegioi;
+      $("worldValue").textContent = Number.isFinite(world?.sell) ? numberFormat.format(world.sell) : "—";
+      const previous = state.gold.old?.thegioi;
+      $("worldChange").innerHTML = changeMarkup(Number.isFinite(world?.sell) && Number.isFinite(previous?.sell) ? world.sell-previous.sell : NaN);
+    }
+
+    function selectProduct(key) {
+      if (!state.rows.some((row) => row.key === key)) return;
+      state.selected = key;
+      $("productSelect").value = key;
+      // Giữ nút và tiêu điểm bàn phím khi người dùng đổi loại vàng trong bảng.
+      document.querySelectorAll("[data-product]").forEach((button) => {
+        const selected = button.dataset.product === key;
+        button.setAttribute("aria-pressed", String(selected));
+        button.closest("tr").classList.toggle("selected", selected);
+      });
+      renderSelection();
+    }
+
+    function renderChart() {
+      const row = selectedRow();
+      const history = state.charts[state.selected];
+      const sorted = (Array.isArray(history) ? history : []).filter((point) => Number.isFinite(point.buy) && Number.isFinite(point.sell) && Number.isFinite(dateNumber(point.date_label))).sort((a,b) => dateNumber(a.date_label)-dateNumber(b.date_label));
+      const latest = sorted.length ? dateNumber(sorted[sorted.length-1].date_label) : 0;
+      const points = sorted.filter((point) => dateNumber(point.date_label) >= latest-(state.days-1)*86400000);
+      if (!points.length) {
+        $("priceChart").innerHTML = '<text x="155" y="90" text-anchor="middle" fill="#717b73" font-size="11">Chưa có lịch sử cho loại vàng này</text>';
+        $("priceChart").setAttribute("aria-label", "Chưa có lịch sử cho " + row.label);
+        $("chartCaption").textContent = "Nguồn chưa cung cấp dữ liệu lịch sử.";
+        return;
+      }
+      const prices = points.flatMap((point) => [point.buy/1000,point.sell/1000]);
+      const min = Math.min(...prices), max = Math.max(...prices), padding = Math.max((max-min)*.18,.25);
+      const low = min-padding, high = max+padding;
+      const x = (point) => points.length === 1 ? 166 : 43+(dateNumber(point.date_label)-dateNumber(points[0].date_label))/(latest-dateNumber(points[0].date_label))*249;
+      const y = (price) => 146-(price/1000-low)/(high-low)*123;
+      let markup = "";
+      for (let tick=0;tick<4;tick++) {
+        const py = 23+tick*41;
+        markup += `<line x1="43" y1="${py}" x2="292" y2="${py}" stroke="#e9ece4" stroke-dasharray="3 4"/><text x="34" y="${py+3}" text-anchor="end" fill="#92998e" font-size="8">${numberFormat.format(high-tick*(high-low)/3)}</text>`;
+      }
+      for (const [field,color] of [["buy","#164d3e"],["sell","#b18a43"]]) {
+        markup += `<polyline points="${points.map((point) => `${x(point).toFixed(2)},${y(point[field]).toFixed(2)}`).join(" ")}" fill="none" stroke="${color}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+        const last = points[points.length-1];
+        markup += `<circle cx="${x(last)}" cy="${y(last[field])}" r="3.2" fill="${color}" stroke="white" stroke-width="1.5"/>`;
+      }
+      [...new Set([0,Math.floor((points.length-1)/2),points.length-1])].forEach((index) => {
+        const point = points[index];
+        markup += `<text x="${x(point)}" y="171" text-anchor="middle" fill="#92998e" font-size="8">${escapeHTML(point.date_label.slice(0,5))}</text>`;
+      });
+      $("priceChart").innerHTML = markup;
+      $("priceChart").setAttribute("aria-label", `Giá ${row.label}, ${points[0].date_label} đến ${points[points.length-1].date_label}. Mua vào từ ${numberFormat.format(Math.min(...points.map(p=>p.buy))/1000)} đến ${numberFormat.format(Math.max(...points.map(p=>p.buy))/1000)} triệu đồng/lượng; bán ra từ ${numberFormat.format(Math.min(...points.map(p=>p.sell))/1000)} đến ${numberFormat.format(Math.max(...points.map(p=>p.sell))/1000)} triệu đồng/lượng.`);
+      $("chartCaption").textContent = `${points[0].date_label} — ${points[points.length-1].date_label} · ${points.length} ngày có dữ liệu`;
+    }
+
+    function renderEstimate() {
+      const input = $("quantity").value.trim();
+      const amount = Number(input);
+      const valid = input !== "" && Number.isFinite(amount) && amount >= 0 && amount <= 1000000;
+      $("converterError").hidden = valid;
+      $("quantity").setAttribute("aria-invalid", String(!valid));
+      const row = selectedRow();
+      $("estimateValue").textContent = valid && row ? moneyFormat.format(amount * Number($("quantityUnit").value) * row[$("transactionType").value] * 1000) + " ₫" : "—";
+    }
+
+    function exportCSV() {
+      const rows = filteredRows();
+      if (!rows.length) return;
+      const csvCell = (value) => '"' + String(value).replace(/^[=+@\-]/, "'$&").replace(/"/g, '""') + '"';
+      const lines = [["Loại vàng","Ngày dữ liệu","Mua vào (VND/lượng)","Bán ra (VND/lượng)","Chênh lệch (VND/lượng)","Thay đổi bán (VND/lượng)"], ...rows.map((row) => [row.label,row.date_label,row.buy*1000,row.sell*1000,(row.sell-row.buy)*1000,Number.isFinite(row.old?.sell) ? (row.sell-row.old.sell)*1000 : ""])];
+      const blob = new Blob(["\uFEFF" + lines.map((line)=>line.map(csvCell).join(",")).join("\r\n")], { type:"text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "gia-vang-" + (rows[0].date_label || "du-lieu").replace(/\//g,"-") + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    $("refreshButton").addEventListener("click", loadGold);
+    $("searchInput").addEventListener("input", renderTable);
+    $("sortSelect").addEventListener("change", renderTable);
+    $("displayUnit").addEventListener("change", renderTable);
+    $("productSelect").addEventListener("change", (event) => selectProduct(event.target.value));
+    $("goldTable").addEventListener("click", (event) => { const button = event.target.closest("[data-product]"); if (button) selectProduct(button.dataset.product); });
+    document.querySelectorAll("[data-filter]").forEach((button) => button.addEventListener("click", () => {
+      state.filter = button.dataset.filter;
+      document.querySelectorAll("[data-filter]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      renderTable();
+    }));
+    document.querySelectorAll("[data-days]").forEach((button) => button.addEventListener("click", () => {
+      state.days = Number(button.dataset.days);
+      document.querySelectorAll("[data-days]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      if (selectedRow()) renderChart();
+    }));
+    ["quantity","quantityUnit","transactionType"].forEach((id) => $(id).addEventListener("input", renderEstimate));
+    $("exportButton").addEventListener("click", exportCSV);
+    $("autoRefresh").addEventListener("change", () => {
+      clearInterval(state.timer);
+      state.timer = $("autoRefresh").checked ? setInterval(() => { if (!document.hidden) loadGold(); }, 60000) : null;
+    });
+    loadGold();
+  </script>
+</body>
+</html>

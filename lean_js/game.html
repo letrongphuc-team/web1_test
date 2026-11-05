@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <div id="div1" style="width: 300px; height: 100px; background-color: red;"
+        onmouseover="anDiv1()" onmouseout="anDiv2()">
+            <h1><img src="hinh/truoc.png"></h1>
+        </div>
+        <div style="width: 300px; height:100px">
+
+        </div>
+        <div id="div2" style="width: 300px; height: 100px; background-color: red;"
+        onmouseover="anDiv1()" onmouseout="anDiv2()">
+            <h1><img src="hinh/sau.png"></h1>
+        </div>
+        <script>
+            function anDiv1() {
+                document.getElementById("div1").style.display = "none";
+                document.getElementById("div2").style.display = "block";
+            }
+            function anDiv2() {
+                document.getElementById("div2").style.display = "none";
+                document.getElementById("div1").style.display = "block";
+            }
+        </script>
+    </body>
+</html>

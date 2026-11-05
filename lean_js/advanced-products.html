@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>Advanced Products</title>
+        <script>
+            function addProduct() {
+                var id = document.getElementById("txt_id").value;
+                var name = frm_product.txt_name.value;
+                var price = document.getElementById("txt_price").value;
+                var image = document.getElementById("txt_image").value;
+
+                if (id && name && price && image) {
+                    var tableBody = document.getElementById("tbProducts");
+                    var tr = document.createElement("tr");
+
+                    tr.innerHTML = "<td>" + id + "</td>" +
+                                   "<td>" + name + "</td>" +
+                                   "<td>" + price + "</td>" +
+                                   "<td><img src='" + image + "' alt='" + name + "' width='100'></td>" +
+                                   "<td><button onclick='deleteProduct(this)'>Delete</button></td>";
+
+                    tableBody.appendChild(tr);
+
+                    // Clear the form fields
+                    document.getElementById("frm_product").reset();
+                } else {
+                    alert("Please fill in all fields.");
+                }
+            }
+            function deleteProduct(button) {
+                var row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        </script>
+    </head>
+    <body>
+        <form id="frm_product" name="frm_product">
+            <table border="1">
+                <tr>
+                    <td>Product ID</td>
+                    <td><input type="text" id="txt_id" name="txt_id"></td>
+                </tr>
+                <tr>
+                    <td>Product Name</td>
+                    <td><input type="text" id="txt_name" name="txt_name"></td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td><input type="number" id="txt_price" name="txt_price"></td>
+                </tr>
+                <tr>
+                    <td>Image URL</td>
+                    <td><input type="text" id="txt_image" name="txt_image"></td>
+                </tr>
+            </table>
+            <input type="button" value="Add Product" onclick="addProduct()">
+        </form>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="tbProducts">
+            </tbody>
+        </table>
+    </body>
+</html>

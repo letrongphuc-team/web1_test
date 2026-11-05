@@ -1,0 +1,181 @@
+<html>
+    <head>
+        <title>Đăng ký thành viên - Lê Trọng Phúc</title>
+        <script>
+            function loadDays() {
+                var sel_day = document.getElementById("sel_day");
+                for (var i = 1; i <= 31; i++) {
+                    var option = document.createElement("option");
+                    option.value = i < 10 ? "0" + i : i;
+                    option.text = i < 10 ? "0" + i : i;
+                    sel_day.appendChild(option);
+                }
+            }
+            function loadMonths() {
+                var sel_month = document.getElementById("sel_month");
+                for (var i = 1; i <= 12; i++) {
+                    var option = document.createElement("option");
+                    option.value = i < 10 ? "0" + i : i;
+                    option.text = i;
+                    sel_month.appendChild(option);
+                }
+            }
+            function loadYears() {
+                var sel_year = document.getElementById("sel_year");
+                var currentYear = new Date().getFullYear();
+                for (var i = 1900; i <= currentYear; i++) {
+                    var option = document.createElement("option");
+                    option.value = i;
+                    option.text = i;
+                    sel_year.appendChild(option);
+                }
+                sel_year.value = 1970;
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Đăng ký thành viên</h1>
+        <hr>
+        <form id="frm_member" name="frm_member">
+            <table>
+                <tr>
+                    <td>Tên(*)</td>
+                    <td><input type="text" id="txtName"></td>
+                </tr>
+                <tr>
+                    <td>Ngày sinh(*)</td>
+                    <td>
+                        Ngày: <select id="sel_day"></select>
+                        Tháng: <select id="sel_month"></select>
+                        Năm: <select id="sel_year"></select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Giới tính(*)</td>
+                    <td>
+                        <input type="radio" name="rad_gender" value="Nam" checked>Nam
+                        <input type="radio" name="rad_gender" value="Nữ">Nữ
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email(*)</td>
+                    <td><input type="text" id="txtEmail"></td>
+                </tr>
+            </table>
+            <br>
+            Sở thích của bạn:<br>
+            <input type="checkbox" name="chk_sothich" value="Mua sắm" checked>Mua sắm<br>
+            <input type="checkbox" name="chk_sothich" value="Du lịch" checked>Du lịch<br>
+            <input type="checkbox" name="chk_sothich" value="Tán gẫu" checked>Tán gẫu<br>
+            <input type="checkbox" name="chk_sothich" value="Đọc sách" checked>Đọc sách<br>
+            <input type="checkbox" name="chk_sothich" value="Nghe nhạc" checked>Nghe nhạc<br>
+            Màu yêu thích của bạn:<br>
+            <input type="radio" name="rad_mau" value="Màu xanh da trời" checked><span style="background-color: blue;">Màu xanh da trời</span><br>
+            <input type="radio" name="rad_mau" value="Màu đỏ"><span style="background-color: red;">Màu đỏ</span><br>
+            <input type="radio" name="rad_mau" value="Màu vàng"><span style="background-color: yellow;">Màu vàng</span><br>
+            <input type="radio" name="rad_mau" value="Màu xanh xanh lá cây"><span style="background-color: green;">Màu xanh xanh lá cây</span><br>
+            <input type="radio" name="rad_mau" value="Màu xanh tím"><span style="background-color: violet;">Màu xanh tím</span><br>
+            <br>
+            <input type="button" value="Đăng ký" onclick="dangKy()">
+            <input type="button" value="Tiếp" onclick="tiep()">
+        </form>
+        <br>
+        <table border="1">
+            <thead>
+                <tr style="background-color: blue; color: white;">
+                    <th>Tên</th>
+                    <th>Email</th>
+                    <th>Giới tính</th>
+                    <th>Năm sinh</th>
+                    <th>Sở thích</th>
+                    <th>Màu yêu thích</th>
+                </tr>
+            </thead>
+            <tbody id="tblMember"></tbody>
+        </table>
+        <script>
+            loadDays();
+            loadMonths();
+            loadYears();
+
+            function kiemTraEmail(email) {
+                var mau = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/;
+                return mau.test(email);
+            }
+            function layGioiTinh() {
+                var rads = document.getElementsByName("rad_gender");
+                for (var i = 0; i < rads.length; i++) {
+                    if (rads[i].checked) {
+                        return rads[i].value;
+                    }
+                }
+                return "";
+            }
+            function laySoThich() {
+                var chks = document.getElementsByName("chk_sothich");
+                var ds = [];
+                for (var i = 0; i < chks.length; i++) {
+                    if (chks[i].checked) {
+                        ds.push(chks[i].value);
+                    }
+                }
+                return ds.join(", ");
+            }
+            function layMau() {
+                var rads = document.getElementsByName("rad_mau");
+                for (var i = 0; i < rads.length; i++) {
+                    if (rads[i].checked) {
+                        return rads[i].value;
+                    }
+                }
+                return "";
+            }
+            function dangKy() {
+                var name = document.getElementById("txtName").value;
+                var email = document.getElementById("txtEmail").value;
+                var day = document.getElementById("sel_day").value;
+                var month = document.getElementById("sel_month").value;
+                var year = document.getElementById("sel_year").value;
+
+                if (name.trim() == "") {
+                    alert("Tên không được bỏ trống!");
+                    document.getElementById("txtName").focus();
+                    return;
+                }
+                if (!kiemTraEmail(email)) {
+                    alert("Email không hợp lệ!");
+                    document.getElementById("txtEmail").focus();
+                    return;
+                }
+
+                var tblMember = document.getElementById("tblMember");
+                var row = tblMember.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                cell1.innerHTML = name;
+                cell2.innerHTML = email;
+                cell3.innerHTML = layGioiTinh();
+                cell4.innerHTML = day + "/" + month + "/" + year;
+                cell5.innerHTML = laySoThich();
+                cell6.innerHTML = layMau();
+
+                // sự kiện mouse over, mouse out cho dòng
+                row.onmouseover = function () {
+                    this.style.backgroundColor = "yellow";
+                };
+                row.onmouseout = function () {
+                    this.style.backgroundColor = "white";
+                };
+            }
+            function tiep() {
+                document.getElementById("frm_member").reset();
+                document.getElementById("sel_year").value = 1970;
+                document.getElementById("txtName").focus();
+            }
+        </script>
+    </body>
+</html>

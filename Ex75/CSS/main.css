@@ -1,0 +1,54 @@
+body {
+    margin: 8px;
+    color: #000;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+}
+
+.student-table {
+    width: 304px;
+    border-collapse: collapse;
+    border: 1px solid #888;
+    background: #f1f1f1;
+}
+
+.student-table > tbody > tr > td {
+    padding: 3px 5px;
+    border: 1px solid #888;
+}
+
+.student-table > tbody > tr:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+
+.student-table input {
+    width: 175px;
+    height: 21px;
+    box-sizing: border-box;
+}
+
+.books-cell {
+    padding: 4px 5px !important;
+}
+
+.books-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+}
+
+.books-table th,
+.books-table td {
+    padding: 4px 5px;
+    border: 1px solid #888;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.books-table th {
+    text-align: center;
+}
+
+.books-table tbody tr:nth-child(even) {
+    background-color: #eee;
+}

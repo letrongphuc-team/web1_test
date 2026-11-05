@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <style>
+            @import url('css/main.css')
+        </style>
+        <script src="js/main.js"></script>
+        <script>
+            function tinhNghiem() {
+                var a = parseFloat(document.getElementById("txta").value);
+                var b = parseFloat(document.getElementById("txtb").value);
+                var c = parseFloat(document.getElementById("txtc").value);
+                var result = giaiptb2(a, b, c);
+                document.getElementById("txtnghiem").innerText = result;
+            }
+        </script>
+    </head>
+    <body>
+        <table>
+            <caption>Phương trình bậc 2</caption>
+            <tr>
+                <td>
+                    Hệ số a:
+                </td>
+                <td><input type="text" id="txta"></td>
+            </tr>
+            <tr>
+                <td>
+                    Hệ số b:
+                </td>
+                <td><input type="text" id="txtb"></td> 
+              </tr>     
+              <tr>
+                <td>
+                    Hệ số c:
+                </td>
+                <td><input type="text" id="txtc"></td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                    <button onclick="tinhNghiem()">Tính nghiệm</button>
+                </td>  
+                </tr>
+                <tr>
+                    <td>Nghiệm:</td>
+                    <td id="txtnghiem"></td>
+                </tr>
+        </table>
+    </body>
+</html>

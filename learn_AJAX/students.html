@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Students</title>
+        <style>
+            @import url("css/main.css");
+        </style>
+    </head>
+    <body>
+        <h1>Students</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student name</th>
+                    <th>Age</th>
+                    <th>Major</th>
+                </tr>
+            </thead>
+            <tbody id="tbStudent">
+            </tbody>
+        </table>
+
+        <script src="js/main.js"></script>
+        <script>
+            load_students("datasets/students.xml", "tbStudent");
+        </script>
+    </body>
+</html>

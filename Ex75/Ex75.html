@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Thông tin sinh viên và sách</title>
+    <link rel="stylesheet" href="CSS/main.css">
+</head>
+<body>
+    <main>
+        <table class="student-table">
+            <tbody>
+                <tr>
+                    <td><label for="student-id">Nhập Mã:</label></td>
+                    <td><input id="student-id" type="text" autocomplete="off"></td>
+                </tr>
+                <tr>
+                    <td><label for="student-name">Nhập Tên:</label></td>
+                    <td><input id="student-name" type="text" autocomplete="off"></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Mã và Tên: <span id="student-summary"></span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">Danh sách Sách đang mượn:</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="books-cell">
+                        <table class="books-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Mã Sách</th>
+                                    <th scope="col">Tên Sách</th>
+                                    <th scope="col">Số Trang</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbBooks">
+                                <tr>
+                                    <td colspan="3" id="load-status">Đang tải dữ liệu...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <script src="js/main.js"></script>
+</body>
+</html>

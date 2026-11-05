@@ -1,0 +1,332 @@
+<students>
+    <student>
+        <id>1</id>
+        <name>John</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>2</id>
+        <name>Lê</name>
+        <age>21</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>3</id>
+        <name>Huynh</name>
+        <age>22</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>4</id>
+        <name>Trong</name>
+        <age>23</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>5</id>
+        <name>Phuc</name>
+        <age>24</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>6</id>
+        <name>Nguyễn Minh Anh</name>
+        <age>19</age>
+        <major>Computer Science</major>
+    </student>
+    <student>
+        <id>7</id>
+        <name>Trần Gia Bảo</name>
+        <age>20</age>
+        <major>Information Technology</major>
+    </student>
+    <student>
+        <id>8</id>
+        <name>Lê Hoàng Yến</name>
+        <age>21</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>9</id>
+        <name>Phạm Quốc Huy</name>
+        <age>22</age>
+        <major>Artificial Intelligence</major>
+    </student>
+    <student>
+        <id>10</id>
+        <name>Hoàng Thùy Linh</name>
+        <age>19</age>
+        <major>Software Engineering</major>
+    </student>
+    <student>
+        <id>11</id>
+        <name>Võ Thành Đạt</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>12</id>
+        <name>Đặng Ngọc Mai</name>
+        <age>21</age>
+        <major>Cybersecurity</major>
+    </student>
+    <student>
+        <id>13</id>
+        <name>Bùi Đức Anh</name>
+        <age>22</age>
+        <major>Information Systems</major>
+    </student>
+    <student>
+        <id>14</id>
+        <name>Đỗ Khánh Vy</name>
+        <age>19</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>15</id>
+        <name>Hồ Nhật Nam</name>
+        <age>20</age>
+        <major>Artificial Intelligence</major>
+    </student>
+    <student>
+        <id>16</id>
+        <name>Ngô Phương Thảo</name>
+        <age>21</age>
+        <major>Software Engineering</major>
+    </student>
+    <student>
+        <id>17</id>
+        <name>Dương Tuấn Kiệt</name>
+        <age>22</age>
+        <major>Computer Science</major>
+    </student>
+    <student>
+        <id>18</id>
+        <name>Lý Bảo Ngọc</name>
+        <age>19</age>
+        <major>Information Technology</major>
+    </student>
+    <student>
+        <id>19</id>
+        <name>Mai Hoàng Long</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>20</id>
+        <name>Trương Mỹ Duyên</name>
+        <age>21</age>
+        <major>Cybersecurity</major>
+    </student>
+    <student>
+        <id>21</id>
+        <name>Phan Anh Khoa</name>
+        <age>22</age>
+        <major>Information Systems</major>
+    </student>
+    <student>
+        <id>22</id>
+        <name>Vũ Hà My</name>
+        <age>19</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>23</id>
+        <name>Đinh Trung Hiếu</name>
+        <age>20</age>
+        <major>Artificial Intelligence</major>
+    </student>
+    <student>
+        <id>24</id>
+        <name>Huỳnh Thanh Trúc</name>
+        <age>21</age>
+        <major>Software Engineering</major>
+    </student>
+    <student>
+        <id>25</id>
+        <name>Vương Gia Hân</name>
+        <age>22</age>
+        <major>Computer Science</major>
+    </student>
+    <student>
+        <id>26</id>
+        <name>Đoàn Minh Quân</name>
+        <age>19</age>
+        <major>Information Technology</major>
+    </student>
+    <student>
+        <id>27</id>
+        <name>Tạ Ngọc Hân</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>28</id>
+        <name>Châu Thành Công</name>
+        <age>21</age>
+        <major>Cybersecurity</major>
+    </student>
+    <student>
+        <id>29</id>
+        <name>La Mỹ Tiên</name>
+        <age>22</age>
+        <major>Information Systems</major>
+    </student>
+    <student>
+        <id>30</id>
+        <name>Phùng Hải Đăng</name>
+        <age>19</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>31</id>
+        <name>Nguyễn Thảo Nhi</name>
+        <age>20</age>
+        <major>Artificial Intelligence</major>
+    </student>
+    <student>
+        <id>32</id>
+        <name>Trần Quốc Bảo</name>
+        <age>21</age>
+        <major>Software Engineering</major>
+    </student>
+    <student>
+        <id>33</id>
+        <name>Lê Khánh An</name>
+        <age>22</age>
+        <major>Computer Science</major>
+    </student>
+    <student>
+        <id>34</id>
+        <name>Phạm Minh Triết</name>
+        <age>19</age>
+        <major>Information Technology</major>
+    </student>
+    <student>
+        <id>35</id>
+        <name>Hoàng Ngọc Diệp</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>36</id>
+        <name>Võ Đức Minh</name>
+        <age>21</age>
+        <major>Cybersecurity</major>
+    </student>
+    <student>
+        <id>37</id>
+        <name>Đặng Bảo Trân</name>
+        <age>22</age>
+        <major>Information Systems</major>
+    </student>
+    <student>
+        <id>38</id>
+        <name>Bùi Anh Thư</name>
+        <age>19</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>39</id>
+        <name>Đỗ Thành Luân</name>
+        <age>20</age>
+        <major>Artificial Intelligence</major>
+    </student>
+    <student>
+        <id>40</id>
+        <name>Hồ Gia Linh</name>
+        <age>21</age>
+        <major>Software Engineering</major>
+    </student>
+    <student>
+        <id>41</id>
+        <name>Ngô Minh Châu</name>
+        <age>22</age>
+        <major>Computer Science</major>
+    </student>
+    <student>
+        <id>42</id>
+        <name>Dương Hoài Phong</name>
+        <age>19</age>
+        <major>Information Technology</major>
+    </student>
+    <student>
+        <id>43</id>
+        <name>Lý Thanh Tâm</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>44</id>
+        <name>Mai Quốc Khánh</name>
+        <age>21</age>
+        <major>Cybersecurity</major>
+    </student>
+    <student>
+        <id>45</id>
+        <name>Trương Ngọc Ánh</name>
+        <age>22</age>
+        <major>Information Systems</major>
+    </student>
+    <student>
+        <id>46</id>
+        <name>Phan Gia Huy</name>
+        <age>19</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>47</id>
+        <name>Vũ Thùy Dương</name>
+        <age>20</age>
+        <major>Artificial Intelligence</major>
+    </student>
+    <student>
+        <id>48</id>
+        <name>Đinh Nhật Minh</name>
+        <age>21</age>
+        <major>Software Engineering</major>
+    </student>
+    <student>
+        <id>49</id>
+        <name>Huỳnh Bảo Châu</name>
+        <age>22</age>
+        <major>Computer Science</major>
+    </student>
+    <student>
+        <id>50</id>
+        <name>Vương Thanh Bình</name>
+        <age>19</age>
+        <major>Information Technology</major>
+    </student>
+    <student>
+        <id>51</id>
+        <name>Đoàn Khánh Linh</name>
+        <age>20</age>
+        <major>Computer Vision</major>
+    </student>
+    <student>
+        <id>52</id>
+        <name>Tạ Minh Đức</name>
+        <age>21</age>
+        <major>Cybersecurity</major>
+    </student>
+    <student>
+        <id>53</id>
+        <name>Châu Ngọc Hà</name>
+        <age>22</age>
+        <major>Information Systems</major>
+    </student>
+    <student>
+        <id>54</id>
+        <name>La Quốc Việt</name>
+        <age>19</age>
+        <major>Data Science</major>
+    </student>
+    <student>
+        <id>55</id>
+        <name>Phùng Thùy Chi</name>
+        <age>20</age>
+        <major>Artificial Intelligence</major>
+    </student>
+</students>

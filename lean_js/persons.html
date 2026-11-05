@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <script>
+            var person = {
+                firstName: "Phan",
+                lastName: "Thien",
+                middleName: "Duc",
+                age: 17,
+                fullName: Function(){
+                    return this.fistName+" "this.middleName+" "+this.lastName
+                }
+            };
+        </script>
+    </head>
+    <body>
+        <table border="1">
+            <tr>
+                <td>First Name</td>
+                <td id="tdfirstname"></td>
+            </tr>
+            <tr>
+                <td>Middle Name</td>
+                <td id="tdmiddlename"></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td id="tdlastname"></td>
+            </tr>
+            <tr>
+                <td>Full Name</td>
+                <td id="tdfullName"></td>
+            </tr>
+            <tr>
+                <td>Age</td>
+                <td id="tdage"></td>    
+        </tr>
+        </table>
+        <script>
+            document.getElementById("tdfirstname").innerHTML = person.firstName;
+            document.getElementById("tdmiddlename").innerHTML = person.middleName;
+            document.getElementById("tdlastname").innerHTML = person.lastName;
+            document.getElementById("tdfullName").innerHTML = person.fullName;
+            document.getElementById("tdage").innerHTML = person.age;
+        </script>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+    <body>
+        <h1>Dự báo thời tiết - realtime</h1>
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Thành phố</td>
+                    <td>Nhiệt độ</td>
+                    <td>Mây</td>
+                    <td>Hình ảnh đại diện</td>
+                </tr>
+            </thead>
+            <tbody id="tbweather">
+            </tbody>
+        </table>
+        <script>
+            function load_weather(api, tbweather) {
+                tbweather = document.getElementById(tbweather);
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", api, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        //chuyển đổi chuỗi JSON thành đối tượng JavaScript
+                        var jsonObj = JSON.parse(xhr.responseText);
+                        for (var i = 0; i < jsonObj.weathers.length; i++) {
+                            //lấy từng phần tử trong mảng weathers
+                            var weather = jsonObj.weathers[i];
+                            var tr = document.createElement("tr");
+                            //tạo các td và gán giá trị
+                            var td = document.createElement("td");
+                            td.textContent = weather.name;
+                            var td_nd = document.createElement("td");
+                            td_nd.textContent = weather.temperature;
+                            var td_may = document.createElement("td");
+                            td_may.textContent = weather.clouds;
+                            var td_ico = document.createElement("td");
+                            var img = document.createElement("img");
+                            img.src = "https://openweathermap.org/img/wn/" + weather.icon + "@2x.png";
+                            img.alt = weather.clouds;
+                            //đưa img vào td_ico
+                            td_ico.appendChild(img);
+                            //đưa các td vào tr
+                            tr.appendChild(td);
+                            tr.appendChild(td_nd);
+                            tr.appendChild(td_may);
+                            tr.appendChild(td_ico);
+                            //đưa tr vào tbody
+                            tbweather.appendChild(tr);
+                        }
+                    }
+                };
+                xhr.send();
+            }
+
+            load_weather("https://webapi.dantri.com.vn/misc", "tbweather");
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Tiêu đề trang</title>
+    </head>
+    <body>
+        <form name="my_form">
+            <fieldset>
+                <legend>Thông tin cá nhân</legend>
+                <table>
+                    <tr>
+                        <td>Họ và tên:</td>
+                        <td><input type="text" name="fullname" id="fullname"></td>
+                    </tr>
+                    <tr>
+                        <td>Ngày sinh:</td>
+                        <td><input type="date" name="dob" id="dob"></td>
+                    </tr>
+                    <tr>
+                        <td>Giới tính:</td>
+                        <td>
+                            <input type="radio" name="gender" value="male" id="male">
+                            <label for="male">Nam</label>
+                            <input type="radio" name="gender" value="female" id="female">
+                            <label for="female">Nữ</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Quốc tịch:</td>
+                        <td>
+                            <select name="nationality" id="nationality">
+                                <option value="">--Chọn quốc tịch--</option>
+                                <option value="vn">Việt Nam</option>
+                                <option value="us">Mỹ</option>
+                                <option value="jp">Nhật Bản</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><input type="submit" value="Gửi"></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </form>
+    </body>
+</html>

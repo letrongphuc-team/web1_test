@@ -1,0 +1,39 @@
+<html> 
+    <head>
+ <script>
+        function hienthitendaydu() {
+            var ho = document.getElementById("firstName").value;
+            var tenlot = document.getElementById("tenlot").value;
+            var ten = document.getElementById("ten").value;
+            document.getElementById("fullName").value = ho + " " + tenlot + " " + ten;
+        }
+    </script>
+    </head> 
+    <body>
+        <h1 id="h1">Hello, World!</h1>
+        <button onclick="javascript:idh1.style='background-color: yellow;'"> đổi nền vàng </button>
+        <table>
+            <tr>
+                <td>Họ</td>
+                <td><input type="text" id="firstName"></td>
+            </tr>
+            <tr>
+                <td>tên lót</td>
+                <td><input type="text" id="tenlot"></td>
+            </tr>
+            <tr>
+                <td>tên</td>
+                <td><input type="text" id="ten"></td>
+            </tr>
+            <tr>
+                <td>tên đầy đủ</td>
+                <td><input type="text" id="fullName"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button onclick="hienthitendaydu()">Hiển thị tên đầy đủ</button>
+                </td>
+            </tr>
+        </table>
+    </body> 
+</html>
