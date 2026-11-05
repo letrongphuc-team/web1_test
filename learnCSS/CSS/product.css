@@ -1,0 +1,29 @@
+thead tr{
+    background-color: yellow;
+}
+
+tbody tr:nth-child(odd){
+    background-color: aqua;
+}
+tbody tr:nth-child(even){
+    background-color:bisque;
+}
+a:active
+{
+    color:aquamarine;
+    font-style: italic;
+}
+a:hover
+{
+    background: yellow;
+    font-style: italic;
+    cursor: pointer;
+}
+.nen_vang
+{
+    background-color: yellow;
+}
+.chu_xanh
+{
+    color: blue;
+}
